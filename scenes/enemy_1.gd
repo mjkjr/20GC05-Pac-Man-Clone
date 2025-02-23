@@ -2,7 +2,7 @@ extends Enemy
 
 const SCATTER_TARGET: Vector2i = Vector2i(27, 0)
 
-enum Direction { RIGHT, DOWN, LEFT, UP }
+enum Direction { UP, LEFT, DOWN, RIGHT }
 
 var _target_cell: Vector2i = SCATTER_TARGET
 

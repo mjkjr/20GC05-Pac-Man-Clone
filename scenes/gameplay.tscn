@@ -1733,15 +1733,23 @@ offset_bottom = 1687.0
 theme_override_font_sizes/font_size = 64
 text = "0"
 
-[node name="Powerup" type="Label" parent="UI"]
+[node name="Mode" type="Label" parent="UI"]
 unique_name_in_owner = true
-visible = false
-offset_left = 265.0
-offset_top = 1755.0
-offset_right = 841.0
-offset_bottom = 1843.0
-theme_override_font_sizes/font_size = 64
-text = "POWERUP MODE!!!"
+offset_left = 232.0
+offset_top = 1738.0
+offset_right = 570.0
+offset_bottom = 1821.0
+theme_override_font_sizes/font_size = 60
+text = "SCATTER (1)"
+
+[node name="ModeTime" type="Label" parent="UI"]
+unique_name_in_owner = true
+offset_left = 603.0
+offset_top = 1747.0
+offset_right = 853.0
+offset_bottom = 1830.0
+theme_override_font_sizes/font_size = 60
+text = "0"
 
 [connection signal="body_entered" from="Player/Pickup" to="." method="_on_pickup_body_entered"]
 [connection signal="area_entered" from="Player/HitBox" to="Player" method="_on_hit_box_area_entered"]

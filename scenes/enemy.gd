@@ -10,49 +10,72 @@ const DEBUG_TILE = Vector2i(7, 3)
 enum Mode { SCATTER, CHASE, FLEE }
 
 var mode: Mode = Mode.SCATTER
+var prior_mode: Mode = Mode.SCATTER
 var mode_changed: bool = false
 var direction: Vector2i = Vector2i.RIGHT
 
 # store time so it can be paused by FLEE mode
-var current_wave_timer: SceneTreeTimer
+var current_mode_timer: Timer
+var flee_mode_timer: Timer
 
 
 func _ready() -> void:
-	current_wave_timer = get_tree().create_timer(7.0)
-	current_wave_timer.timeout.connect(
+	flee_mode_timer = Timer.new()
+	flee_mode_timer.one_shot = true
+	add_child(flee_mode_timer)
+	flee_mode_timer.timeout.connect(
+		func():
+			mode = prior_mode
+			mode_changed = true
+			%Mode.text = Mode.keys()[mode]
+			current_mode_timer.paused = false
+	)
+	
+	current_mode_timer = Timer.new()
+	current_mode_timer.one_shot = true
+	add_child(current_mode_timer)
+	current_mode_timer.start(7.0)
+	current_mode_timer.timeout.connect(
 		func():
 			mode = Mode.CHASE
 			mode_changed = true
-			current_wave_timer = get_tree().create_timer(20)
-			current_wave_timer.timeout.connect(
+			%Mode.text = "CHASE (1)"
+			current_mode_timer.start(20)
+			current_mode_timer.timeout.connect(
 				func():
 					mode = Mode.SCATTER
 					mode_changed = true
-					current_wave_timer = get_tree().create_timer(7)
-					current_wave_timer.timeout.connect(
+					%Mode.text = "SCATTER (2)"
+					current_mode_timer.start(7)
+					current_mode_timer.timeout.connect(
 						func():
 							mode = Mode.CHASE
 							mode_changed = true
-							current_wave_timer = get_tree().create_timer(20)
-							current_wave_timer.timeout.connect(
+							%Mode.text = "CHASE (2)"
+							current_mode_timer.start(20)
+							current_mode_timer.timeout.connect(
 								func():
 									mode = Mode.SCATTER
 									mode_changed = true
-									current_wave_timer = get_tree().create_timer(5)
-									current_wave_timer.timeout.connect(
+									%Mode.text = "SCATTER (3)"
+									current_mode_timer.start(5)
+									current_mode_timer.timeout.connect(
 										func():
 											mode = Mode.CHASE
 											mode_changed = true
-											current_wave_timer = get_tree().create_timer(20)
-											current_wave_timer.timeout.connect(
+											%Mode.text = "CHASE (3)"
+											current_mode_timer.start(20)
+											current_mode_timer.timeout.connect(
 												func():
 													mode = Mode.SCATTER
 													mode_changed = true
-													current_wave_timer = get_tree().create_timer(5)
-													current_wave_timer.timeout.connect(
+													%Mode.text = "SCATTER (4)"
+													current_mode_timer.start(5)
+													current_mode_timer.timeout.connect(
 														func():
 															mode = Mode.CHASE
 															mode_changed = true
+															%Mode.text = "CHASE (4)"
 													)
 											)
 									)
@@ -92,3 +115,20 @@ func _physics_process(delta: float) -> void:
 		velocity.y = direction.y * SPEED * delta
 	
 	move_and_slide()
+
+
+func _process(delta: float) -> void:
+	if current_mode_timer.paused:
+		%ModeTime.text = str(int(flee_mode_timer.time_left))
+	else:
+		%ModeTime.text = str(int(current_mode_timer.time_left))
+
+
+func trigger_flee_mode() -> void:
+	current_mode_timer.paused = true
+	prior_mode = mode
+	mode = Mode.FLEE
+	mode_changed = true
+	%Mode.text = "FLEE"
+	flee_mode_timer.start(5)
+	# TODO: change enemy appearance
