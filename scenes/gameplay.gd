@@ -28,10 +28,10 @@ func _on_pickup_body_entered(_body: Node2D) -> void:
 		else:
 			# ATTENTION: if a second powerup is consumed before the timer runs out should it be
 			# restarted or have time added to the current time remaining?
-			$Enemy1.trigger_flee_mode()
-			#$Enemy2.trigger_flee_mode()
-			#$Enemy3.trigger_flee_mode()
-			#$Enemy4.trigger_flee_mode()
+			$Enemy1.flee()
+			#$Enemy2.flee()
+			#$Enemy3.flee()
+			#$Enemy4.flee()
 
 
 func scored(amount: int) -> void:

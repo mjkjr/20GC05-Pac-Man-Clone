@@ -981,7 +981,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_down",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1010,7 +1010,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_left",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1039,7 +1039,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_right",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1068,7 +1068,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_up",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1460,7 +1460,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_down",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1489,7 +1489,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_left",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1518,7 +1518,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_right",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1547,7 +1547,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"die_up",
-"speed": 5.0
+"speed": 12.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yrrgu"]
@@ -1669,7 +1669,7 @@ script = ExtResource("3_5bgbs")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_2b2qe")
-animation = &"idle_down"
+animation = &"die_right"
 
 [node name="Shadow" type="Sprite2D" parent="Player/AnimatedSprite2D"]
 texture = ExtResource("7_x4yss")
@@ -1677,7 +1677,7 @@ texture = ExtResource("7_x4yss")
 [node name="DeathShadow" type="AnimatedSprite2D" parent="Player/AnimatedSprite2D"]
 visible = false
 sprite_frames = SubResource("SpriteFrames_raiy0")
-animation = &"die_down"
+animation = &"die_up"
 
 [node name="Pickup" type="Area2D" parent="Player"]
 collision_layer = 2
@@ -1731,24 +1731,6 @@ offset_top = 1599.0
 offset_right = 591.0
 offset_bottom = 1687.0
 theme_override_font_sizes/font_size = 64
-text = "0"
-
-[node name="Mode" type="Label" parent="UI"]
-unique_name_in_owner = true
-offset_left = 232.0
-offset_top = 1738.0
-offset_right = 570.0
-offset_bottom = 1821.0
-theme_override_font_sizes/font_size = 60
-text = "SCATTER (1)"
-
-[node name="ModeTime" type="Label" parent="UI"]
-unique_name_in_owner = true
-offset_left = 603.0
-offset_top = 1747.0
-offset_right = 853.0
-offset_bottom = 1830.0
-theme_override_font_sizes/font_size = 60
 text = "0"
 
 [connection signal="body_entered" from="Player/Pickup" to="." method="_on_pickup_body_entered"]
