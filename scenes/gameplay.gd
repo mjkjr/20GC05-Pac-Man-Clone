@@ -23,6 +23,7 @@ func _next_wave() -> void:
 		$Timers/Scatter.wait_time = mode_times[Global.Mode.SCATTER]
 		$Timers/Chase.wait_time = mode_times[Global.Mode.CHASE]
 		$Timers/Flee.wait_time = mode_times[Global.Mode.FLEE]
+		$Timers/Flee/Waring.wait_time = $Timers/Flee.wait_time - 3
 
 
 func _on_scatter_timeout() -> void:
@@ -47,6 +48,12 @@ func _on_flee_timeout() -> void:
 	Global.mode = Global.prior_mode
 	Global.prior_mode = Global.Mode.FLEE
 	Global.mode_changed = true
+	
+	$Enemy1.flee_done()
+	#$Enemy2.flee_done()
+	#$Enemy3.flee_done()
+	#$Enemy4.flee_done()
+	
 	# reset flee timer in case multiple power pellets where activated
 	$Timers/Flee.wait_time = mode_times[Global.Mode.FLEE]
 	if Global.mode == Global.Mode.SCATTER:
@@ -55,9 +62,18 @@ func _on_flee_timeout() -> void:
 		$Timers/Chase.paused = false
 
 
+func _on_flee_warning_timeout() -> void:
+	$Enemy1.flee_warning()
+	#$Enemy2.flee_warning()
+	#$Enemy3.flee_warning()
+	#$Enemy4.flee_warning()
+
+
 func _on_flee() -> void:
 	if Global.mode == Global.Mode.FLEE:
-		$Timers/Flee.start($Timers/Flee.time_left + mode_times[Global.Mode.FLEE])
+		$Timers/Flee.wait_time = $Timers/Flee.time_left + mode_times[Global.Mode.FLEE]
+		$Timers/Flee/Warning.wait_time = $Timers/Flee.wait_time - 3
+		$Timers/Flee.start()
 	else:
 		Global.prior_mode = Global.mode
 		Global.mode = Global.Mode.FLEE
@@ -67,6 +83,7 @@ func _on_flee() -> void:
 		elif Global.prior_mode == Global.Mode.CHASE:
 			$Timers/Chase.paused = true
 		$Timers/Flee.start()
+		$Timers/Flee/Warning.start()
 	
 	# TODO: change enemy appearance during flee mode
 
