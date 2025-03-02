@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal died
+signal pickup
 
 const SPEED: float = 10_000.0
 const FRICTION: float = 1_000.0
@@ -89,3 +90,7 @@ func _on_hit_box_area_entered(_area: Area2D) -> void:
 		$AnimatedSprite2D.play("die_up")
 		$AnimatedSprite2D/DeathShadow.play("die_up")
 	died.emit()
+
+
+func _on_pickup_body_entered(_body: Node2D) -> void:
+	pickup.emit()

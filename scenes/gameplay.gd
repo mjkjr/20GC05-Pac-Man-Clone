@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 # triggered when a pellet tile is collided
-func _on_pickup_body_entered(_body: Node2D) -> void:
+func _on_player_pickup() -> void:
 	
 	var cell = %Pickups.local_to_map(%Pickups.to_local($Player.global_position))
 

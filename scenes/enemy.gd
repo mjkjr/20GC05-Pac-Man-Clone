@@ -28,6 +28,7 @@ func _ready() -> void:
 	# TESTING: Print the current mode and time left
 	get_tree().create_timer(0).timeout.connect(print_mode)
 
+	# TODO: move the mode timers to gameplay.gd and emit signals from there
 	flee_mode_timer = Timer.new()
 	flee_mode_timer.one_shot = true
 	add_child(flee_mode_timer)
