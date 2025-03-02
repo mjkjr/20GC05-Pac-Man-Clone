@@ -11,27 +11,25 @@ var _previous_cell: Vector2i = Vector2i.ZERO
 
 
 func _ready() -> void:
-	super()
-	$HitBox.body_entered.connect(_cell_entered)
 	_previous_cell = %Maze.local_to_map(%Maze.to_local(global_position))
 	_previous_cell.x -= 1
 
 
-func _cell_entered(_body: Node2D) -> void:
+func _on_hit_box_body_entered(_body: Node2D) -> void:
 	
 	_current_cell = %Maze.local_to_map(%Maze.to_local(global_position))
 	
 	#print("Current Cell = %s\nPrevious Cell = %s" % [_current_cell, _previous_cell])
 	
 	# Determine target cell
-	if mode_changed:
+	if Global.mode_changed:
 		# reverse direction on mode change
 		_target_cell = _previous_cell
 	else:
-		match mode:
-			Mode.SCATTER:
+		match Global.mode:
+			Global.Mode.SCATTER:
 				_target_cell = SCATTER_TARGET
-			Mode.CHASE:
+			Global.Mode.CHASE:
 				# player's current location
 				_target_cell = %Maze.local_to_map(%Maze.to_local(%Player.global_position))
 			#Mode.FLEE:
@@ -60,7 +58,7 @@ func _cell_entered(_body: Node2D) -> void:
 
 	for i in Direction.values():
 		# force direction reversal during a mode change
-		if mode_changed:
+		if Global.mode_changed:
 			if neighbors[i] == _previous_cell: 
 				routes[i] = true
 		else:
@@ -73,7 +71,7 @@ func _cell_entered(_body: Node2D) -> void:
 							i == Direction.UP
 							and cell_data.get_custom_data("one_way")
 						)
-						or mode == Mode.FLEE
+						or Global.mode == Global.Mode.FLEE
 					):
 						routes[i] = cell_data.get_custom_data("traversable")
 	
@@ -93,7 +91,7 @@ func _cell_entered(_body: Node2D) -> void:
 	elif num_routes > 1:
 		var choice: Direction
 		
-		if mode == Mode.FLEE:
+		if Global.mode == Global.Mode.FLEE:
 			# select turn randomly
 			var choices: Array[Direction]
 			for i in Direction.values():
@@ -124,5 +122,5 @@ func _cell_entered(_body: Node2D) -> void:
 				direction = Vector2i.DOWN
 	
 	# update these last
-	mode_changed = false
+	Global.mode_changed = false
 	_previous_cell = _current_cell

@@ -1,6 +1,13 @@
 extends Node
 ## Global game state and scene switching
 
+# Enemy behavior modes
+enum Mode { SCATTER, CHASE, FLEE }
+
+var mode: Mode = Mode.SCATTER
+var prior_mode: Mode = Mode.SCATTER
+var mode_changed: bool = false
+
 # Audio
 #const MUSIC_TRACK = preload("res://assets/audio/music/Lofi hip hop Volume 1) - 06 - Soft Lights (Loop Version).mp3")
 #var music: AudioStreamPlayer = null
